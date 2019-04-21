@@ -1,0 +1,31 @@
+# change-pwd.yml
+
+---
+  - hosts : servers
+    vars_prompt : 
+      - name : newhash
+        prompt : "New Password"
+        private : yes
+        encrypt : "sha512_crypt" 
+        confirm : yes
+        salt_size : 8
+
+    vars :
+      user : jiraya
+    
+
+    tasks :
+      - name : confirm password change
+        pause :
+          prompt : "Press ENTER to set shadow password of user '{{ user }}' to '{{ newhash }}' on {{ play_hosts |length  }} servers"
+
+      - name : check target user existence
+        getent :
+          key : "{{ user }}"
+          database : passwd
+
+      - name : change shadow password hash
+        user :
+          user : "{{ user }}"
+          password : "{{ newhash }}"
+        become : yes

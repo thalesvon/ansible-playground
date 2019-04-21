@@ -1,0 +1,8 @@
+# hosts-dev
+
+[servers]
+server1 ansible_host=172.24.0.100
+server2 ansible_host=172.24.0.200
+
+[local]
+control ansible_connection=local

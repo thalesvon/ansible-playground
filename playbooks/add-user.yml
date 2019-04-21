@@ -1,0 +1,8 @@
+# add-user.yml
+
+---
+  - hosts : servers
+    become : true
+    tasks:
+      - name : Create jiraya user
+        shell : useradd jiraya
